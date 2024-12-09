@@ -8,14 +8,11 @@ using System.Collections.Generic;
 
 public class SingletonStructure : MonoBehaviour
 {
-
     void Start()
     {
-        // Constructor is protected -- cannot use new
-        Singleton s1 = Singleton.Instance();
-        Singleton s2 = Singleton.Instance();
+        var s1 = Singleton.Instance;
+        var s2 = Singleton.Instance;
 
-        // Test for same instance
         if (s1 == s2)
         {
             Debug.Log("Objects are the same instance");
@@ -23,27 +20,21 @@ public class SingletonStructure : MonoBehaviour
     }
 }
 
-/// <summary>
-/// The 'Singleton' class
-/// </summary>
-class Singleton
+public class Singleton
 {
     private static Singleton _instance;
 
-    // Constructor is 'protected'
-    protected Singleton()
-    {
-    }
+    protected Singleton() { }
 
-    public static Singleton Instance()
+    public static Singleton Instance
     {
-        // Uses lazy initialization.
-        // Note: this is not thread safe.
-        if (_instance == null)
+        get
         {
-            _instance = new Singleton();
+            if (_instance == null)
+            {
+                _instance = new Singleton();
+            }
+            return _instance;
         }
-
-        return _instance;
     }
 }

@@ -16,19 +16,8 @@ namespace SingletonPatternExample1
     {
         void Start()
         {
-            LoadBalancer b1 = LoadBalancer.GetLoadBalancer();
-            LoadBalancer b2 = LoadBalancer.GetLoadBalancer();
-            LoadBalancer b3 = LoadBalancer.GetLoadBalancer();
-            LoadBalancer b4 = LoadBalancer.GetLoadBalancer();
+            var balancer = LoadBalancer.Instance;
 
-            // Same instance?
-            if (b1 == b2 && b2 == b3 && b3 == b4)
-            {
-                Debug.Log("Same instance\n");
-            }
-
-            // Load balance 15 server requests
-            LoadBalancer balancer = LoadBalancer.GetLoadBalancer();
             for (int i = 0; i < 15; i++)
             {
                 string server = balancer.Server;
@@ -37,56 +26,39 @@ namespace SingletonPatternExample1
         }
     }
 
-    /// <summary>
-    /// The 'Singleton' class
-    /// </summary>
-    class LoadBalancer
+    public sealed class LoadBalancer
     {
+        private static readonly object _syncLock = new object();
         private static LoadBalancer _instance;
-        private List<string> _servers = new List<string>();
-        private System.Random _random = new System.Random();
+        private readonly List<string> _servers = new List<string> { "ServerI", "ServerII", "ServerIII", "ServerIV", "ServerV" };
+        private readonly System.Random _random = new System.Random();
 
-        // Lock synchronization object
-        private static object syncLock = new object();
+        private LoadBalancer() { }
 
-        // Constructor (protected)
-        protected LoadBalancer()
+        public static LoadBalancer Instance
         {
-            // List of available servers
-            _servers.Add("ServerI");
-            _servers.Add("ServerII");
-            _servers.Add("ServerIII");
-            _servers.Add("ServerIV");
-            _servers.Add("ServerV");
-        }
-
-        public static LoadBalancer GetLoadBalancer()
-        {
-            // Support multithreaded applications through
-            // 'Double checked locking' pattern which (once
-            // the instance exists) avoids locking each
-            // time the method is invoked
-            if (_instance == null)
+            get
             {
-                lock (syncLock)
+                if (_instance == null)
                 {
-                    if (_instance == null)
+                    lock (_syncLock)
                     {
-                        _instance = new LoadBalancer();
+                        if (_instance == null)
+                        {
+                            _instance = new LoadBalancer();
+                        }
                     }
                 }
+                return _instance;
             }
-
-            return _instance;
         }
 
-        // Simple, but effective random load balancer
         public string Server
         {
             get
             {
                 int r = _random.Next(_servers.Count);
-                return _servers[r].ToString();
+                return _servers[r];
             }
         }
     }

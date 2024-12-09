@@ -23,35 +23,27 @@ namespace SingletonPatternExample2
         }
     }
 
-
-    /// <summary>
-    /// 某单例manager
-    /// </summary>
-    public class RenderManager
+    public sealed class RenderManager
     {
-        private static RenderManager instance;
+        private static RenderManager _instance;
+
+        private RenderManager() { }
+
         public static RenderManager Instance
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new RenderManager();
+                    _instance = new RenderManager();
                 }
-                return instance;
+                return _instance;
             }
         }
 
-        /// <summary>
-        /// 随便某方法
-        /// </summary>
         public void Show()
         {
-            Debug.Log("RenderManager is a Singleton !");
+            Debug.Log("RenderManager is a Singleton!");
         }
     }
-
-
-
-
 }
