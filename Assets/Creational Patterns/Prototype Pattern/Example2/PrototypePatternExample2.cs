@@ -12,17 +12,15 @@ namespace PrototypePatternExample2
     {
         void Start()
         {
-            CloneFactory factory = new CloneFactory();
-            
-            Sheep sally = new Sheep();
+            var factory = new CloneFactory();
+            var sally = new Sheep();
 
-            Sheep clonedSheep = (Sheep)factory.GetClone(sally);
+            var clonedSheep = (Sheep)factory.GetClone(sally);
 
             Debug.Log("Sally: " + sally.ToStringEX());
             Debug.Log("Clone of Sally: " + clonedSheep.ToStringEX());
             Debug.Log("Sally Hash: " + sally.GetHashCode() + " - Cloned Sheep Hash: " + clonedSheep.GetHashCode());
         }
-
     }
 
     public class CloneFactory
@@ -47,25 +45,20 @@ namespace PrototypePatternExample2
 
         public object Clone()
         {
-            Sheep sheep = null;
-
             try
             {
-                sheep = (Sheep)base.MemberwiseClone();
+                return MemberwiseClone();
             }
             catch (Exception e)
             {
-                Debug.LogError("Error cloning Sheep");
+                Debug.LogError("Error cloning Sheep: " + e.Message);
+                return null;
             }
-
-            return sheep;
         }
 
         public string ToStringEX()
         {
-            return "Hello I'm a Sheep";
+            return "Hello, I'm a Sheep";
         }
     }
-
 }
-
