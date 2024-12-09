@@ -33,13 +33,9 @@ namespace BuilderPatternExample1
             builder = new MotorCycleBuilder();
             shop.Construct(builder);
             builder.Vehicle.Show();
-
         }
     }
 
-    /// <summary>
-    /// The 'Director' class
-    /// </summary>
     class Shop
     {
         // Builder uses a complex series of steps
@@ -52,29 +48,21 @@ namespace BuilderPatternExample1
         }
     }
 
-    /// <summary>
-    /// The 'Builder' abstract class
-    /// </summary>
     abstract class VehicleBuilder
     {
         protected Vehicle vehicle;
 
-        // Gets vehicle instance
         public Vehicle Vehicle
         {
             get { return vehicle; }
         }
 
-        // Abstract build methods
         public abstract void BuildFrame();
         public abstract void BuildEngine();
         public abstract void BuildWheels();
         public abstract void BuildDoors();
     }
 
-    /// <summary>
-    /// The 'ConcreteBuilder1' class
-    /// </summary>
     class MotorCycleBuilder : VehicleBuilder
     {
         public MotorCycleBuilder()
@@ -103,10 +91,6 @@ namespace BuilderPatternExample1
         }
     }
 
-
-    /// <summary>
-    /// The 'ConcreteBuilder2' class
-    /// </summary>
     class CarBuilder : VehicleBuilder
     {
         public CarBuilder()
@@ -135,9 +119,6 @@ namespace BuilderPatternExample1
         }
     }
 
-    /// <summary>
-    /// The 'ConcreteBuilder3' class
-    /// </summary>
     class ScooterBuilder : VehicleBuilder
     {
         public ScooterBuilder()
@@ -166,22 +147,16 @@ namespace BuilderPatternExample1
         }
     }
 
-    /// <summary>
-    /// The 'Product' class
-    /// </summary>
     class Vehicle
     {
         private string _vehicleType;
-        private Dictionary<string, string> _parts =
-          new Dictionary<string, string>();
+        private Dictionary<string, string> _parts = new Dictionary<string, string>();
 
-        // Constructor
         public Vehicle(string vehicleType)
         {
             this._vehicleType = vehicleType;
         }
 
-        // Indexer
         public string this[string key]
         {
             get { return _parts[key]; }

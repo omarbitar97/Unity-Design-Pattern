@@ -24,11 +24,8 @@ namespace BuilderPatternExample2
     public interface IRobotPlan
     {
         void SetRobotHead(string head);
-
         void SetRobotTorso(string torso);
-
         void SetRobotArms(string arms);
-
         void SetRobotLegs(string legs);
     }
 
@@ -65,10 +62,6 @@ namespace BuilderPatternExample2
         }
     }
 
-
-
-
-    // they're kinda like a blueprint these RobotBuilder classes:
     public interface IRobotBuilder
     {
         Robot GetRobot();
@@ -78,7 +71,6 @@ namespace BuilderPatternExample2
         void BuildRobotLegs();
     }
 
-    // for each new robot that you might want to have just create a new RobotBuilder Object
     public class OldRobotBuilder : IRobotBuilder
     {
         protected Robot robot { get; set; }
@@ -114,9 +106,6 @@ namespace BuilderPatternExample2
         }
     }
 
-
-
-    // he just calls the method in the Robot Objects (which are defined by the interface, just think of blueprints)
     public class RobotEngineer
     {
         public IRobotBuilder robotBuilder { get; protected set; }
@@ -139,6 +128,4 @@ namespace BuilderPatternExample2
             this.robotBuilder.BuildRobotLegs();
         }
     }
-
-
 }
